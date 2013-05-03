@@ -1,6 +1,6 @@
-# Cinch::Seen
+# Cinch::Plugins::Seen
 
-TODO: Write a gem description
+Cinch Plugin to allow users to ask the bot when the last time it saw a given user was.
 
 ## Installation
 
@@ -18,7 +18,18 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Just add the plugin to your list:
+
+    @bot = Cinch::Bot.new do
+      configure do |c|
+        c.plugins.plugins = [Cinch::Plugins::Seen]
+      end
+    end
+
+Then in channel use .seen
+
+    .seen username
+
 
 ## Contributing
 

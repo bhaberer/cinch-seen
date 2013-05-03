@@ -1,7 +1,2 @@
-require "cinch-seen/version"
-
-module Cinch
-  module Seen
-    # Your code goes here...
-  end
-end
+require 'cinch/plugins/seen/version'
+require 'cinch/plugins/seen/seen'
