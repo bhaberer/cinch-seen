@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+require 'cinch-toolbox'
+require 'cinch-storage'
+require 'cinch-cooldown'
 require 'time-lord'
 
 module Cinch::Plugins
