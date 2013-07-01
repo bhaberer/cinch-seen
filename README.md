@@ -1,5 +1,11 @@
 # Cinch::Plugins::Seen
 
+[![Gem Version](https://badge.fury.io/rb/cinch-seen.png)](http://badge.fury.io/rb/cinch-seen)
+[![Dependency Status](https://gemnasium.com/bhaberer/cinch-seen.png)](https://gemnasium.com/bhaberer/cinch-seen)
+[![Build Status](https://travis-ci.org/bhaberer/cinch-seen.png?branch=master)](https://travis-ci.org/bhaberer/cinch-seen)
+[![Coverage Status](https://coveralls.io/repos/bhaberer/cinch-seen/badge.png?branch=master)](https://coveralls.io/r/bhaberer/cinch-seen?branch=master)
+[![Code Climate](https://codeclimate.com/github/bhaberer/cinch-seen.png)](https://codeclimate.com/github/bhaberer/cinch-seen)
+
 Cinch Plugin to allow users to ask the bot when the last time it saw a given user was.
 
 ## Installation
