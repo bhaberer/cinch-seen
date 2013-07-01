@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+require 'cinch'
 require 'cinch-toolbox'
 require 'cinch-storage'
 require 'cinch-cooldown'
@@ -13,38 +14,46 @@ module Cinch::Plugins
     self.help = "Use .seen <name> to see the last time that nick was active."
 
     listen_to :channel
-    attr_accessor :storage
 
-    match /seen (.+)/
+    match /seen ([^\s]+)\z/
 
     def initialize(*args)
       super
       @storage = CinchStorage.new(config[:filename] || 'yaml/seen.yml')
-      @storage.data[:seen] ||= {}
+      @storage.data ||= {}
     end
 
     def listen(m)
-      @storage.data[:seen][m.channel.name] = {} unless @storage.data[:seen].key?(m.channel.name)
-      @storage.data[:seen][m.channel.name][m.user.nick.downcase] = Time.now
-
-      synchronize(:seen_save) do
-        @storage.save
-      end
+      channel = m.channel.name
+      @storage.data[channel] ||= Hash.new
+      @storage.data[channel][m.user.nick.downcase] = Time.now
+      @storage.synced_save(@bot)
     end
 
     def execute(m, nick)
-      if m.channel.nil?
-        m.user.msg "You must use that command in the main channel."
-        return
-      end
-
+      return if sent_via_pm?(m)
       unless m.user.nick.downcase == nick.downcase
-        if @storage.data[:seen][m.channel.name].key?(nick.downcase)
-          m.reply "I last saw #{nick} #{@storage.data[:seen][m.channel.name][nick.downcase].ago.to_words}", true
-        else
-          m.reply "I've never seen #{nick} before, sorry!", true
-        end
+        m.reply last_seen(m.channel.name, nick), true
       end
+    end
+
+    private
+
+    def last_seen(channel, nick)
+      @storage.data[channel] ||= Hash.new
+      time = @storage.data[channel][nick.downcase]
+
+      if time.nil?
+        "I've never seen #{nick} before, sorry!"
+      else
+        "I last saw #{nick} #{time.ago.to_words}"
+      end
+    end
+
+    def sent_via_pm?(m)
+      return false unless m.channel.nil?
+      m.reply "You must use that command in the main channel."
+      true
     end
   end
 end
