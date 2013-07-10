@@ -12,7 +12,7 @@ describe Cinch::Plugins::Seen do
     get_replies(make_message(@bot, 'hello, world!', { :nick => 'foo', :channel => '#bar' }))
     sleep 1 # time-lord hack
     msg = make_message(@bot, '!seen foo', { :nick => 'baz', :channel => '#bar' })
-    get_replies(msg).last.
+    get_replies(msg).last.text.
       should match(/baz: I last saw foo \d seconds? ago/)
   end
 
@@ -24,7 +24,7 @@ describe Cinch::Plugins::Seen do
 
   it 'should inform users when a person has not been seen before' do
     msg = make_message(@bot, '!seen foo', { :channel => '#bar' })
-    get_replies(msg).first.
+    get_replies(msg).first.text.
       should == "test: I've never seen foo before, sorry!"
   end
 
