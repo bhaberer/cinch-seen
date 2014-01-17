@@ -6,12 +6,19 @@ require 'cinch/cooldown'
 require 'time-lord'
 
 module Cinch::Plugins
+  # plugin to allow users to see when other users were last active
   class Seen
     include Cinch::Plugin
 
+    class Activity < Struct.new(:nick, :time, :message)
+      def to_yaml
+        { nick: nick, time: time, message: message }
+      end
+    end
+
     enforce_cooldown
 
-    self.help = "Use .seen <name> to see the last time that nick was active."
+    self.help = 'Use .seen <name> to see the last time that nick was active.'
 
     listen_to :channel
 
@@ -25,8 +32,10 @@ module Cinch::Plugins
 
     def listen(m)
       channel = m.channel.name
-      @storage.data[channel] ||= Hash.new
-      @storage.data[channel][m.user.nick.downcase] = Time.now
+      nick = m.user.nick
+      @storage.data[channel] ||= {}
+      @storage.data[channel][nick.downcase] =
+        Activity.new(nick, Time.now, m.message)
       @storage.synced_save(@bot)
     end
 
@@ -40,19 +49,20 @@ module Cinch::Plugins
     private
 
     def last_seen(channel, nick)
-      @storage.data[channel] ||= Hash.new
-      time = @storage.data[channel][nick.downcase]
+      @storage.data[channel] ||= {}
+      activity = @storage.data[channel][nick.downcase]
 
-      if time.nil?
+      if activity.nil?
         "I've never seen #{nick} before, sorry!"
       else
-        "I last saw #{nick} #{time.ago.to_words}"
+        "I last saw #{activity.nick} #{activity.time.ago.to_words} " +
+        "saying '#{activity.message}'"
       end
     end
 
     def sent_via_pm?(m)
       return false unless m.channel.nil?
-      m.reply "You must use that command in the main channel."
+      m.reply 'You must use that command in the main channel.'
       true
     end
   end
