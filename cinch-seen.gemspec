@@ -4,18 +4,19 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'cinch/plugins/seen/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "cinch-seen"
+  gem.name          = 'cinch-seen'
   gem.version       = Cinch::Plugins::Seen::VERSION
-  gem.authors       = ["Brian Haberer"]
-  gem.email         = ["bhaberer@gmail.com"]
+  gem.authors       = ['Brian Haberer']
+  gem.email         = ['bhaberer@gmail.com']
   gem.description   = %q{Cinch Plugin to allow users to find out how long it's been since a user was active}
   gem.summary       = %q{Cinch Plugin for Seen}
-  gem.homepage      = "https://github.com/bhaberer/cinch-seen"
+  gem.homepage      = 'https://github.com/bhaberer/cinch-seen'
+  gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.require_paths = ["lib"]
+  gem.require_paths = ['lib']
 
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec'

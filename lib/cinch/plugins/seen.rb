@@ -10,11 +10,8 @@ module Cinch::Plugins
   class Seen
     include Cinch::Plugin
 
-    class Activity < Struct.new(:nick, :time, :message)
-      def to_yaml
-        { nick: nick, time: time, message: message }
-      end
-    end
+    # Simple object used to track users.
+    Activity = Struct.new(:nick, :time, :message)
 
     enforce_cooldown
 
