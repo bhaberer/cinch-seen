@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'cinch'
 require 'cinch/toolbox'
-require 'cinch-storage'
+require 'cinch/storage'
 require 'cinch/cooldown'
 require 'time-lord'
 
@@ -23,7 +23,7 @@ module Cinch::Plugins
 
     def initialize(*args)
       super
-      @storage = CinchStorage.new(config[:filename] || 'yaml/seen.yml')
+      @storage = Cinch::Storage.new(config[:filename] || 'yaml/seen.yml')
       @storage.data ||= {}
     end
 
