@@ -16,3 +16,6 @@ matrix:
     - rvm: ree
     - rvm: jruby-18mode
   fast_finish: true
+env:
+  global:
+    - "JRUBY_OPTS=-Xcext.enabled=true"
